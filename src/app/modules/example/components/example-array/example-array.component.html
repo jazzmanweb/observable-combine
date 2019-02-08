@@ -1,0 +1,97 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            Without RXJS (example 1)
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card>
+        <button *ngIf="background?.length === 0" mat-mini-fab [ngStyle]="{background: 'white'}" (click)="nextBackground()"></button>
+        <ng-container *ngFor="let iter of background; let idx = index">
+            <ng-container *ngIf="iter; else noBackground">
+                <button *ngIf="idx === 0" mat-mini-fab [ngStyle]="{background: state[state.length - 1].background}"
+                        (click)="nextBackground()">
+                </button>
+                <button *ngIf="idx > 0" mat-mini-fab [ngStyle]="{background: iter}">
+                </button>
+            </ng-container>
+
+            <ng-template #noBackground>
+                <ng-container [ngTemplateOutlet]="empty"></ng-container>
+            </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="backgroundSubject$ | async as backgroundSubject">
+            <ng-container *ngIf="backgroundSubject === 'complete'" [ngTemplateOutlet]="complete"></ng-container>
+            <ng-container *ngIf="backgroundSubject === 'error'" [ngTemplateOutlet]="error"></ng-container>
+        </ng-container>
+    </mat-card>
+
+    <mat-card>
+        <button *ngIf="icon?.length === 0" mat-mini-fab [ngStyle]="{background: 'white'}" (click)="nextIcon()"></button>
+        <ng-container *ngFor="let iter of icon; let idx = index">
+            <ng-container *ngIf="iter; else noIcon">
+                <button *ngIf="idx === 0" mat-mini-fab [ngStyle]="{background: 'white'}" (click)="nextIcon()">
+                    <mat-icon>{{state[state.length - 1].icon}}</mat-icon>
+                </button>
+                <button *ngIf="idx > 0" mat-mini-fab [ngStyle]="{background: 'white'}">
+                    <mat-icon>{{iter}}</mat-icon>
+                </button>
+            </ng-container>
+
+            <ng-template #noIcon>
+                <ng-container [ngTemplateOutlet]="empty"></ng-container>
+            </ng-template>
+        </ng-container>
+    </mat-card>
+
+    <mat-card>
+        <button *ngIf="color?.length === 0" mat-mini-fab [ngStyle]="{background: 'white'}" (click)="nextColor()"></button>
+        <ng-container *ngFor="let iter of color; let idx = index">
+            <ng-container *ngIf="iter; else noColor">
+                <button *ngIf="idx === 0" mat-mini-fab
+                        [ngStyle]="{background: 'white', color: state[state.length - 1].color}"
+                        (click)="nextColor()">
+                    <mat-icon>fiber_manual_record</mat-icon>
+                </button>
+                <button *ngIf="idx > 0" mat-mini-fab [ngStyle]="{background: 'white', color: iter}">
+                    <mat-icon>fiber_manual_record</mat-icon>                </button>
+            </ng-container>
+
+            <ng-template #noColor>
+                <ng-container [ngTemplateOutlet]="empty"></ng-container>
+            </ng-template>
+        </ng-container>
+    </mat-card>
+
+    <mat-card>
+        <ng-container [ngTemplateOutlet]="empty"></ng-container>
+        <ng-container *ngFor="let iter of state; let idx = index">
+            <button mat-mini-fab [ngStyle]="{background: iter.background, color: iter.color}">
+                <mat-icon aria-label="Example icon-button with a heart icon">{{iter.icon}}</mat-icon>
+            </button>
+            <ng-template #noState>
+                <ng-container [ngTemplateOutlet]="empty"></ng-container>
+            </ng-template>
+        </ng-container>
+    </mat-card>
+
+</mat-card>
+
+<ng-template #empty>
+    <button mat-mini-fab class="empty">
+        <mat-icon>fiber_manual_record</mat-icon>
+    </button>
+</ng-template>
+
+<ng-template #complete>
+    <button mat-mini-fab color="primary">
+        <mat-icon>done</mat-icon>
+    </button>
+</ng-template>
+
+<ng-template #error>
+    <button mat-mini-fab color="warn">
+        <mat-icon>warning</mat-icon>
+    </button>
+</ng-template>

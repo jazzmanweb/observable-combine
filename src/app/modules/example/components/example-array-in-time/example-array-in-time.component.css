@@ -1,0 +1,14 @@
+.empty {
+    background: none;
+    box-shadow: none;
+    opacity: 0.1;
+}
+
+.mat-card .mat-mini-fab:first-child {
+    height: 60px;
+    width: 60px;
+}
+
+.mat-card .mat-mini-fab {
+    margin: 5px;
+}

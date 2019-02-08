@@ -1,0 +1,139 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            Background with latest from "icon with latest from color"
+        </mat-card-title>
+        <mat-card-subtitle>
+            this.state$ = this.background$.pipe(
+            withLatestFrom(
+            this.icon$.pipe(
+            withLatestFrom(this.color$)
+            )
+            ),
+            map(([master, slave]) => [master, ...slave] as StateTuppleType),
+            );
+        </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card>
+        <button mat-mini-fab
+                [ngStyle]="{background: (background$ | async)?.value || 'white'}"
+                (click)="nextBackground()"></button>
+        <button mat-mini-fab color="primary" (click)="completeBackground()">
+            <mat-icon>done</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="errorBackground()">
+            <mat-icon>warning</mat-icon>
+        </button>
+
+        <ng-container *ngFor="let iter of background; let idx = index">
+            <ng-container *ngIf="iter; else noBackground">
+                <button mat-mini-fab
+                        [ngStyle]="{background: iter.value}"
+                ></button>
+            </ng-container>
+
+            <ng-template #noBackground>
+                <ng-container [ngTemplateOutlet]="empty"></ng-container>
+            </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="backgroundSubject$ | async as backgroundSubject">
+            <ng-container *ngIf="backgroundSubject === 'complete'" [ngTemplateOutlet]="complete"></ng-container>
+            <ng-container *ngIf="backgroundSubject === 'error'" [ngTemplateOutlet]="error"></ng-container>
+        </ng-container>
+    </mat-card>
+
+    <mat-card>
+        <button mat-mini-fab [ngStyle]="{background: 'white'}" (click)="nextIcon()">
+            <mat-icon>{{(icon$ | async)?.value}}</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" (click)="completeIcon()">
+            <mat-icon>done</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="errorIcon()">
+            <mat-icon>warning</mat-icon>
+        </button>
+
+        <ng-container *ngFor="let iter of icon; let idx = index">
+            <ng-container *ngIf="iter; else noIcon">
+                <button mat-mini-fab
+                        [ngStyle]="{background: 'white'}"
+                >
+                    <mat-icon>{{iter.value}}</mat-icon>
+                </button>
+            </ng-container>
+
+            <ng-template #noIcon>
+                <ng-container [ngTemplateOutlet]="empty"></ng-container>
+            </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="iconSubject$ | async as iconSubject">
+            <ng-container *ngIf="iconSubject === 'complete'" [ngTemplateOutlet]="complete"></ng-container>
+            <ng-container *ngIf="iconSubject === 'error'" [ngTemplateOutlet]="error"></ng-container>
+        </ng-container>
+    </mat-card>
+
+    <mat-card>
+        <button mat-mini-fab [ngStyle]="{background: 'white', color: (color$ | async)?.value || 'white'}"
+                (click)="nextColor()">
+            <mat-icon>fiber_manual_record</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" (click)="completeColor()">
+            <mat-icon>done</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="errorColor()">
+            <mat-icon>warning</mat-icon>
+        </button>
+
+        <ng-container *ngFor="let iter of color; let idx = index">
+            <ng-container *ngIf="iter; else noColor">
+                <button mat-mini-fab [ngStyle]="{background: 'white', color: iter.value}">
+                    <mat-icon>fiber_manual_record</mat-icon>
+                </button>
+            </ng-container>
+
+            <ng-template #noColor>
+                <ng-container [ngTemplateOutlet]="empty"></ng-container>
+            </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="colorSubject$ | async as colorSubject">
+            <ng-container *ngIf="colorSubject === 'complete'" [ngTemplateOutlet]="complete"></ng-container>
+            <ng-container *ngIf="colorSubject === 'error'" [ngTemplateOutlet]="error"></ng-container>
+        </ng-container>
+    </mat-card>
+
+    <mat-card>
+        <ng-container [ngTemplateOutlet]="empty"></ng-container>
+        <ng-container [ngTemplateOutlet]="empty"></ng-container>
+        <ng-container [ngTemplateOutlet]="empty"></ng-container>
+        <ng-container *ngFor="let iter of state; let idx = index">
+            <button mat-mini-fab [ngStyle]="{background: iter.value.background, color: iter.value.color}">
+                <mat-icon aria-label="Example icon-button with a heart icon">{{iter.value.icon}}</mat-icon>
+            </button>
+            <ng-template #noState>
+                <ng-container [ngTemplateOutlet]="empty"></ng-container>
+            </ng-template>
+        </ng-container>
+    </mat-card>
+</mat-card>
+
+<ng-template #empty>
+    <button mat-mini-fab class="empty">
+        <mat-icon>fiber_manual_record</mat-icon>
+    </button>
+</ng-template>
+
+<ng-template #complete>
+    <button mat-mini-fab color="primary">
+        <mat-icon>done</mat-icon>
+    </button>
+</ng-template>
+
+<ng-template #error>
+    <button mat-mini-fab color="warn">
+        <mat-icon>warning</mat-icon>
+    </button>
+</ng-template>
