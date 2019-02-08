@@ -20,11 +20,6 @@
                 <ng-container [ngTemplateOutlet]="empty"></ng-container>
             </ng-template>
         </ng-container>
-
-        <ng-container *ngIf="backgroundSubject$ | async as backgroundSubject">
-            <ng-container *ngIf="backgroundSubject === 'complete'" [ngTemplateOutlet]="complete"></ng-container>
-            <ng-container *ngIf="backgroundSubject === 'error'" [ngTemplateOutlet]="error"></ng-container>
-        </ng-container>
     </mat-card>
 
     <mat-card>

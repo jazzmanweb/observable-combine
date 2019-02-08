@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {IconsEnum, StyleEnum} from '../../../../common/style.enum';
 import {getRandomColor, getRandomIcon} from '../../../../common/enum.utils';
 import {StateModel} from '../../../../common/state.model';
+import {AbstractObservableComponent} from '../../../../common/abstract-observable.component';
 
 @Component({
     selector: 'example-array-in-time',
     templateUrl: './example-array-in-time.component.html',
     styleUrls: ['./example-array-in-time.component.css']
 })
-export class ExampleArrayInTimeComponent implements OnInit {
+export class ExampleArrayInTimeComponent {
     public index = 0;
     public state: StateModel[] = [];
     public background: StyleEnum[] = [];
@@ -16,9 +17,6 @@ export class ExampleArrayInTimeComponent implements OnInit {
     public color: StyleEnum[] = [];
 
     constructor() {
-    }
-
-    ngOnInit() {
     }
 
     public next() {
